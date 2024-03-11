@@ -6,7 +6,7 @@ import Loading from "./Loading";
 import { getAllJobs } from "../features/allJobs/allJobsSlice";
 
 function JobsContainer() {
-  const { jobs, isLoading } = useSelector((store) => store.allJobs);
+  const { jobs, totalJobs, isLoading } = useSelector((store) => store.allJobs);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,7 +27,7 @@ function JobsContainer() {
 
   return (
     <Wrapper>
-      <h5>Jobs info</h5>
+      <h5>{jobs.length} Jobs Found</h5>
       <div className="jobs">
         {jobs.map((job) => {
           return <Job key={job._id} {...job} />;
