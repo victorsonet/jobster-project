@@ -9,11 +9,7 @@ export const createJobThunk = async (job, thunkAPI) => {
     thunkAPI.dispatch(clearValues());
     return response.data;
   } catch (error) {
-    if (error.status === 401) {
-      thunkAPI.dispatch(logoutUser());
-      return thunkAPI.rejectWithValue("Unauthorized! Logging out...");
-    }
-    return thunkAPI.rejectWithValue(error.response.data.msg);
+    return unauthorizedResponse(error, thunkAPI);
   }
 };
 
@@ -26,11 +22,7 @@ export const deleteJobThunk = async (jobID, thunkAPI) => {
     return response.data;
   } catch (error) {
     thunkAPI.dispatch(hideLoading());
-    if (error.status === 401) {
-      thunkAPI.dispatch(logoutUser());
-      return thunkAPI.rejectWithValue("Unauthorized! Logging out...");
-    }
-    return thunkAPI.rejectWithValue(error.response.data.msg);
+    return unauthorizedResponse(error, thunkAPI);
   }
 };
 
@@ -40,6 +32,6 @@ export const editJobThunk = async ({ jobID, job }, thunkAPI) => {
     thunkAPI.dispatch(clearValues());
     return response.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data.msg);
+    return unauthorizedResponse(error, thunkAPI);
   }
 };

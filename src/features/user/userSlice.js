@@ -9,6 +9,7 @@ import {
   loginUserThunk,
   registerUserThunk,
   updateUserThunk,
+  clearStoreThunk,
 } from "./userThunk";
 
 const initialState = {
@@ -37,6 +38,8 @@ export const updateUser = createAsyncThunk(
     return updateUserThunk("/auth/updateUser", user, thunkAPI);
   }
 );
+
+export const clearStore = createAsyncThunk("user/clearStore", clearStoreThunk);
 
 const userSlice = createSlice({
   name: "user",
@@ -97,6 +100,9 @@ const userSlice = createSlice({
         state.isLoading = false;
         toast.warning(payload);
       });
+    builder.addCase(clearStore.rejected, () => {
+      toast.error("There was an error!");
+    });
   },
 });
 
